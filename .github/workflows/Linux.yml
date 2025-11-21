@@ -67,8 +67,8 @@ jobs:
 
     - name: Set up Linux environment
       run: |
-        sudo apt-get update
-        sudo apt-get -y --no-install-recommends install python3-setuptools uuid-dev ${{ matrix.TARGET_PKGS }}
+        sudo apt update
+        sudo apt -y --no-install-recommends install python3-setuptools uuid-dev ${{ matrix.TARGET_PKGS }}
         if [[ "${{ matrix.TARGET_ARCH }}" == "LOONGARCH64" ]]; then
           curl -L -O https://github.com/loongson/build-tools/releases/download/2025.08.08/x86_64-cross-tools-loongarch64-binutils_2.45-gcc_15.1.0-glibc_2.42.tar.xz
           tar -xJf x86_64-cross-tools-loongarch64-binutils_2.45-gcc_15.1.0-glibc_2.42.tar.xz
