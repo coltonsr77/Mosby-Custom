@@ -122,11 +122,11 @@ jobs:
       uses: actions/download-artifact@v5
 
     - name: Create release archive
-      run: 7z a -tzip -r Mosby_${{ steps.set_version.outputs.version }}.zip README.md ./Mosby.nsh ./*/*.efi
+      run: 7z a -tzip -r Mosby-Custom_${{ steps.set_version.outputs.version }}.zip README.md ./Mosby.nsh ./*/*.efi
 
     - name: Create release
       uses: softprops/action-gh-release@v2
       with:
         token: ${{secrets.GITHUB_TOKEN}}
-        name: Mosby ${{ steps.set_version.outputs.version }}
+        name: Mosby Custom ${{ steps.set_version.outputs.version }}
         files: ./*.zip
