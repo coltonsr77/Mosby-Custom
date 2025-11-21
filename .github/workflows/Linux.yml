@@ -51,7 +51,7 @@ jobs:
 
     steps:
     - name: Check out repository
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         submodules: recursive
         fetch-depth: 0
@@ -70,7 +70,7 @@ jobs:
         sudo apt-get update
         sudo apt-get -y --no-install-recommends install python3-setuptools uuid-dev ${{ matrix.TARGET_PKGS }}
         if [[ "${{ matrix.TARGET_ARCH }}" == "LOONGARCH64" ]]; then
-          curl -L -O https://github.com/loongson/build-tools/releases/download/2025.08.08/x86_64-cross-tools-loongarch64-binutils_2.45-gcc_15.1.0-glibc_2.42.tar.xz
+          curl -L -O https://github.com/loongson/build-tools/releases/download/2025.11.01/x86_64-cross-tools-loongarch64-binutils_2.43.1-gcc_15.1.0-glibc_2.42.tar.xz
           tar -xJf x86_64-cross-tools-loongarch64-binutils_2.45-gcc_15.1.0-glibc_2.42.tar.xz
           echo "$PWD/cross-tools/bin" >> "$GITHUB_PATH"
         fi
@@ -110,7 +110,7 @@ jobs:
     needs: build
     steps:
     - name: Check out repository
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
@@ -119,14 +119,14 @@ jobs:
       run: echo "version=$(git describe --tags)" >> $GITHUB_OUTPUT
 
     - name: Download artifacts
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v6
 
     - name: Create release archive
       run: 7z a -tzip -r Mosby_${{ steps.set_version.outputs.version }}.zip README.md ./Mosby.nsh ./*/*.efi
 
     - name: Create release
-      uses: softprops/action-gh-release@v2
+      uses: phuonghuynh/action-ghrelease@v1
       with:
         token: ${{secrets.GITHUB_TOKEN}}
-        name: Mosby ${{ steps.set_version.outputs.version }}
+        name: Mosby Custom ${{ steps.set_version.outputs.version }}
         files: ./*.zip
